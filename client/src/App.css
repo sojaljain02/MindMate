@@ -1,0 +1,84 @@
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Utility classes */
+.fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.slide-in {
+  animation: slideIn 0.3s ease-out;
+}
+
+.pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Glass effect */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Card hover effects */
+.card-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Button effects */
+.btn-primary {
+  @apply bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-medium py-2 px-6 rounded-lg;
+  @apply hover:from-indigo-700 hover:to-blue-700 transform hover:scale-105;
+  @apply transition-all duration-200 shadow-lg hover:shadow-xl;
+}
+
+.btn-secondary {
+  @apply bg-white text-gray-700 font-medium py-2 px-6 rounded-lg border border-gray-300;
+  @apply hover:bg-gray-50 transform hover:scale-105;
+  @apply transition-all duration-200 shadow hover:shadow-md;
+}
+
+/* Input styles */
+.input-field {
+  @apply w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-indigo-500;
+  @apply focus:ring-2 focus:ring-indigo-200 transition-all duration-200;
+  @apply bg-white text-gray-900 placeholder-gray-400;
+}
+
+/* Loading skeleton */
+.skeleton {
+  @apply bg-gray-200 rounded animate-pulse;
+}
