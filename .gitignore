@@ -49,7 +49,6 @@ uploads/
 temp/
 
 # Python models cache
-models/
 *.pkl
 *.h5
 
