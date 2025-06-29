@@ -1,1 +1,1 @@
-# Mentora
+# MindMate
