@@ -1,9 +1,7 @@
 const User = require('../models/User');
 const { validationResult } = require('express-validator');
 
-// @desc    Register user
-// @route   POST /api/auth/register
-// @access  Public
+
 const register = async (req, res) => {
   try {
     const errors = validationResult(req);
@@ -114,9 +112,6 @@ const login = async (req, res) => {
   }
 };
 
-// @desc    Get current logged in user
-// @route   GET /api/auth/me
-// @access  Private
 const getMe = async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
