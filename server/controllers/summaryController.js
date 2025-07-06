@@ -17,9 +17,7 @@ const storage = multer.diskStorage({
     cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
   }
 });
-// @desc    Delete summary
-// @route   DELETE /api/summarize/:id
-// @access  Private
+
 const deleteSummary = async (req, res) => {
   try {
     const summary = await Summary.findOne({
