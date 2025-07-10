@@ -131,3 +131,87 @@ const generateQuiz = async (req, res) => {
     }
   });
 };
+
+// @desc    Get quiz
+// @route   GET /api/quiz/:id
+// @access  Private
+const getQuiz = async (req, res) => {
+  try {
+    const quiz = await Quiz.findOne({
+      _id: req.params.id,
+      user: req.user.id
+    }).select('-sourceText');
+
+    if (!quiz) {
+      return res.status(404).json({
+        success: false,
+        message: 'Quiz not found'
+      });
+    }
+
+    res.json(quiz);
+  } catch (error) {
+    console.error('Get quiz error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error'
+    });
+  }
+};
+
+// @desc    Submit quiz
+// @route   POST /api/quiz/:id/submit
+// @access  Private
+const submitQuiz = async (req, res) => {
+  try {
+    const { answers } = req.body;
+
+    const quiz = await Quiz.findOne({
+      _id: req.params.id,
+      user: req.user.id
+    });
+
+    if (!quiz) {
+      return res.status(404).json({
+        success: false,
+        message: 'Quiz not found'
+      });
+    }
+
+    // Calculate score
+    let score = 0;
+    quiz.questions.forEach((question, index) => {
+      if (answers[index] === question.correctAnswer) {
+        score++;
+      }
+    });
+
+    // Save attempt
+    quiz.attempts.push({
+      score,
+      answers,
+      timeTaken: req.body.timeTaken || 0
+    });
+
+    await quiz.save();
+
+    res.json({
+      success: true,
+      score,
+      total: quiz.questions.length,
+      percentage: (score / quiz.questions.length) * 100
+    });
+  } catch (error) {
+    console.error('Submit quiz error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error'
+    });
+  }
+};
+
+module.exports = {
+  generateQuiz,
+  getQuiz,
+  submitQuiz
+};
