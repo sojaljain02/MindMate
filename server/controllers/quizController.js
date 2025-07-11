@@ -210,8 +210,66 @@ const submitQuiz = async (req, res) => {
   }
 };
 
+// @desc    Get user's quizzes
+// @route   GET /api/quiz/list
+// @access  Private
+const getQuizzes = async (req, res) => {
+  try {
+    const quizzes = await Quiz.find({ user: req.user.id })
+      .select('title description difficulty createdAt attempts')
+      .sort('-createdAt')
+      .limit(20);
+
+    res.json({
+      success: true,
+      count: quizzes.length,
+      data: quizzes
+    });
+  } catch (error) {
+    console.error('Get quizzes error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error'
+    });
+  }
+};
+
+// @desc    Delete quiz
+// @route   DELETE /api/quiz/:id
+// @access  Private
+const deleteQuiz = async (req, res) => {
+  try {
+    const quiz = await Quiz.findOne({
+      _id: req.params.id,
+      user: req.user.id
+    });
+
+    if (!quiz) {
+      return res.status(404).json({
+        success: false,
+        message: 'Quiz not found'
+      });
+    }
+
+    await quiz.deleteOne();
+
+    res.json({
+      success: true,
+      message: 'Quiz deleted successfully'
+    });
+  } catch (error) {
+    console.error('Delete quiz error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to delete quiz'
+    });
+  }
+};
+
 module.exports = {
   generateQuiz,
   getQuiz,
-  submitQuiz
+  submitQuiz,
+  getQuizzes,
+  deleteQuiz  
 };
