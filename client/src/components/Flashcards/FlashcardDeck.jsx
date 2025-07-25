@@ -52,10 +52,8 @@ const FlashcardDeck = () => {
       console.log('Create response:', response.data);
       
       if (response.data.success) {
-        // Add the new deck to the list
         setDecks(prevDecks => [...prevDecks, response.data.data]);
         
-        // Reset form and close modal
         setNewDeck({ title: '', description: '' });
         setShowCreateForm(false);
         
@@ -88,7 +86,6 @@ const FlashcardDeck = () => {
       const response = await api.post(`/flashcards/decks/${selectedDeck._id}/cards`, newCard);
       
       if (response.data.success) {
-        // Update the deck in the local state
         const updatedDecks = decks.map(deck => 
           deck._id === selectedDeck._id 
             ? { ...deck, cards: [...(deck.cards || []), response.data.data] }
