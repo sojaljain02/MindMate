@@ -17,10 +17,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Include routers
-app.include_router(summarizer.router, prefix="/api")
-app.include_router(quiz.router, prefix="/api")
-app.include_router(flashcard.router, prefix="/api")
 
 @app.get("/")
 def read_root():
