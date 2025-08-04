@@ -118,7 +118,9 @@ const Login = () => {
                   className="input-field pl-10"
                   placeholder="    student@example.com"
                 />
-                <FiMail className="absolute left-3 top-3.5 text-gray-400" size={20} />
+                {!email && (
+                  <FiMail className="absolute left-3 top-3.5 text-gray-400" size={20} />
+                )}
               </div>
             </motion.div>
 
@@ -138,7 +140,9 @@ const Login = () => {
                   className="input-field pl-10 pr-10"
                   placeholder="    ••••••••"
                 />
-                <FiLock className="absolute left-3 top-3.5 text-gray-400" size={20} />
+                {!password && (
+                  <FiLock className="absolute left-3 top-3.5 text-gray-400" size={20} />
+                  )}
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
