@@ -116,7 +116,7 @@ const Login = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="input-field pl-10"
-                  placeholder="student@example.com"
+                  placeholder="    student@example.com"
                 />
                 <FiMail className="absolute left-3 top-3.5 text-gray-400" size={20} />
               </div>
@@ -136,7 +136,7 @@ const Login = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="input-field pl-10 pr-10"
-                  placeholder="••••••••"
+                  placeholder="    ••••••••"
                 />
                 <FiLock className="absolute left-3 top-3.5 text-gray-400" size={20} />
                 <button
