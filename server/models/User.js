@@ -71,7 +71,20 @@ userSchema.pre('save', async function(next) {
   this.password = await bcrypt.hash(this.password, salt);
 });
 
-
+// Check study streak
+userSchema.methods.updateStreak = function() {
+  const today = new Date();
+  const lastActive = new Date(this.lastActiveDate);
+  const daysDiff = Math.floor((today - lastActive) / (1000 * 60 * 60 * 24));
+  
+  if (daysDiff === 1) {
+    this.studyStreak += 1;
+  } else if (daysDiff > 1) {
+    this.studyStreak = 1;
+  }
+  
+  this.lastActiveDate = today;
+};
 
 // Match password
 userSchema.methods.matchPassword = async function(enteredPassword) {
