@@ -21,7 +21,7 @@ app.use(helmet({
 
 // CORS configuration
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: 'https://mind-mate-blond.vercel.app',
   credentials: true,
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
