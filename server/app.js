@@ -19,13 +19,32 @@ app.use(helmet({
   contentSecurityPolicy: false, // Disable for development
 }));
 
-// CORS configuration
-app.use(cors({
-  origin: '*',
+// Allowed origins
+const allowedOrigins = [
+  'http://localhost:3000', // local development
+  'https://mind-mate-blond.vercel.app' // production frontend
+];
+
+// CORS options
+const corsOptions = {
+  origin: (origin, callback) => {
+    // allow requests with no origin (like Postman)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: ['GET','HEAD','PUT','PATCH','POST','DELETE','OPTIONS'],
   allowedHeaders: ['Content-Type','Authorization'],
-}));
+  credentials: false, // JWT header auth, no cookies
+};
 
+// Apply CORS middleware
+app.use(cors(corsOptions));
+
+// Handle preflight OPTIONS requests
+app.options('*', cors(corsOptions));
 
 // Rate limiting
 const limiter = rateLimit({
