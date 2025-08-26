@@ -19,32 +19,36 @@ app.use(helmet({
   contentSecurityPolicy: false, // Disable for development
 }));
 
-// Allowed origins
+// --- Manual CORS middleware ---
 const allowedOrigins = [
-  'http://localhost:3000', // local development
-  'https://mind-mate-blond.vercel.app' // production frontend
+  'http://localhost:3000', // local dev
+  'https://mind-mate-blond.vercel.app', // production
 ];
 
-// CORS options
-const corsOptions = {
-  origin: (origin, callback) => {
-    // allow requests with no origin (like Postman)
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  methods: ['GET','HEAD','PUT','PATCH','POST','DELETE','OPTIONS'],
-  allowedHeaders: ['Content-Type','Authorization'],
-  credentials: false, // JWT header auth, no cookies
-};
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
 
-// Apply CORS middleware
-app.use(cors(corsOptions));
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader(
+      'Access-Control-Allow-Methods',
+      'GET,POST,PUT,PATCH,DELETE,OPTIONS'
+    );
+    res.setHeader(
+      'Access-Control-Allow-Headers',
+      'Content-Type,Authorization'
+    );
+    // res.setHeader('Access-Control-Allow-Credentials', 'true'); // only if using cookies
+  }
 
-// Handle preflight OPTIONS requests
-app.options('*', cors(corsOptions));
+  // Respond immediately to preflight requests
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200);
+  }
+
+  next();
+});
+// --- End CORS ---
 
 // Rate limiting
 const limiter = rateLimit({
