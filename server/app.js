@@ -20,25 +20,12 @@ app.use(helmet({
 }));
 
 // CORS configuration
-const allowedOrigins = [
-  '*'
-];
-
 app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true,
+  origin: '*',
   methods: ['GET','HEAD','PUT','PATCH','POST','DELETE','OPTIONS'],
   allowedHeaders: ['Content-Type','Authorization'],
 }));
 
-// Handle OPTIONS preflight requests for all routes
-app.options('*', cors());
 
 // Rate limiting
 const limiter = rateLimit({
