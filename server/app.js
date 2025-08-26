@@ -21,8 +21,7 @@ app.use(helmet({
 
 // CORS configuration
 const allowedOrigins = [
-  'http://localhost:3000', // local development
-  'https://mind-mate-blond.vercel.app' // production frontend
+  '*'
 ];
 
 app.use(cors({
